@@ -1,0 +1,23 @@
+# Maintainer: Anatol Pomozov
+# Contributor: Nicholas Koeppen <nicholaskoeppen@gmail.com>
+
+_gemname=gtk3
+pkgname=ruby-$_gemname
+pkgver=4.2.4
+pkgrel=1
+pkgdesc='Ruby/GTK3 is a Ruby binding of GTK+-3.x.'
+arch=(x86_64)
+url="https://rubygems.org/gems/gtk3"
+license=("LGPL-2.1+")
+depends=(gtk3 ruby ruby-atk ruby-gdk3)
+makedepends=(ruby-native-package-installer)
+options=(!emptydirs)
+source=("https://rubygems.org/downloads/$_gemname-$pkgver.gem")
+noextract=($_gemname-$pkgver.gem)
+sha256sums=('2a81ccb60635162f17e58fdb1438e1129c04ce7358b1b269cbdeaad7393c7ddf')
+
+package() {
+  local _gemdir="$(ruby -e'puts Gem.default_dir')"
+  gem install --ignore-dependencies --no-user-install --no-document -i "$pkgdir/$_gemdir" -n "$pkgdir/usr/bin" $_gemname-$pkgver.gem
+  rm "$pkgdir/$_gemdir/cache/$_gemname-$pkgver.gem"
+}

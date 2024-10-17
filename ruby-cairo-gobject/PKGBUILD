@@ -1,0 +1,23 @@
+# Maintainer: Anatol Pomozov <anatol.pomozov@gmail.com>
+# Contributor: Andreas 'Segaja' Schleifer <segaja at archlinux dot org>
+# Contributor: Nicholas Koeppen <nicholaskoeppen@gmail.com>
+
+_gemname=cairo-gobject
+pkgname=ruby-$_gemname
+pkgver=4.2.4
+pkgrel=1
+pkgdesc='Ruby/CairoGObject is a Ruby binding of cairo-gobject'
+arch=(x86_64)
+url="https://rubygems.org/gems/cairo-gobject"
+license=(LGPL2.1)
+depends=(ruby ruby-cairo ruby-glib2)
+options=(!emptydirs)
+source=("https://rubygems.org/downloads/$_gemname-$pkgver.gem")
+noextract=($_gemname-$pkgver.gem)
+sha256sums=('0b9a9f82f6a96b94aad6e3b913f920c6927b0f0b18797b7375c31860b66057ec')
+
+package() {
+  local _gemdir="$(ruby -e'puts Gem.default_dir')"
+  gem install --ignore-dependencies --no-user-install --no-document -i "$pkgdir/$_gemdir" -n "$pkgdir/usr/bin" $_gemname-$pkgver.gem
+  rm "$pkgdir/$_gemdir/cache/$_gemname-$pkgver.gem"
+}
